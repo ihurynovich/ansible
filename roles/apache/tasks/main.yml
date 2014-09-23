@@ -1,0 +1,22 @@
+---
+  - name: Install apache http server 
+    yum: name=httpd state=present
+
+  - name: Install libselinux-python
+    yum: name=libselinux-python state=latest
+
+  - name: Configure proxypass
+    template: src=vhost.conf dest=/etc/httpd/conf.d
+    register: config
+    notify: 
+    - restart httpd
+
+  - name: Reload httpd config
+    service: name=httpd state=restarted
+    when: config|changed
+
+  - name: Start httpd
+    service: name=httpd state=running
+
+  - name: Copy maintenance.html
+    copy: src=maintenance.html dest={{ document_root }}/maintenance.html

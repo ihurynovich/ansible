@@ -1,0 +1,31 @@
+---
+- name: Install tomcat6
+  yum: name=tomcat6 state=latest
+
+- name: Install tomcat6-webapps
+  yum: name=tomcat6-webapps state=latest
+
+- name: Install tomcat6-admin-webapps
+  yum: name=tomcat6-admin-webapps state=latest
+
+- name: Start tomcat6
+  service: name=tomcat6 state=running
+
+- name: Download mysql-connector-java
+  get_url: url={{connector_link}} dest=/tmp/
+
+- name: Unpack mysql-connector-java
+  command: tar xzf /tmp/mysql-connector-java-5.1.13.tar.gz chdir=/tmp
+
+- name: Copy mysql-connector-java jar
+  command: cp /tmp/mysql-connector-java-5.1.13/mysql-connector-java-5.1.13-bin.jar /usr/share/tomcat6/lib
+
+- name: Configure mysql-connector-java
+  template: src=context.xml dest=/usr/share/tomcat6/conf
+  register: config
+  notify: 
+  - restart httpd
+
+- name: Reload tomcat config
+  service: name=httpd state=restarted
+  when: config|changed

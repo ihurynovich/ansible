@@ -1,0 +1,12 @@
+---
+# The playbook deploys java application.
+
+- hosts: tomcat_mysql
+  user: vagrant
+  sudo: yes
+
+  roles:
+    - tomcat
+    - mysql
+    - apache
+    - deploy

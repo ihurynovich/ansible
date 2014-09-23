@@ -1,0 +1,18 @@
+---
+- name: Download application from github
+  get_url: url={{app_link}} dest=/usr/share/tomcat6/webapps/
+
+- name: Create database user
+  action: mysql_user user=tomcat password=tomcat priv=*.*:ALL state=present
+
+- name: Create database
+  action: mysql_db db=app_test state=present
+
+- name: Download database dump from github
+  get_url: url={{dump_link}} dest=/tmp/
+
+- name: Restore database dump
+  mysql_db: name=app_test state=import target=/tmp/app_test.sql
+
+- name: Start tomcat6
+  service: name=tomcat6 state=restarted

@@ -1,0 +1,18 @@
+<VirtualHost *>
+  DocumentRoot {{ document_root }}
+  <IfModule mod_rewrite.c> 
+		RewriteEngine {{ maintenance_mode }}
+		RewriteCond %{DOCUMENT_ROOT}/maintenance.html -f 
+		RewriteCond %{SCRIPT_FILENAME} !/maintenance.html 
+		RewriteCond %{SCRIPT_FILENAME} !^(.+).(gif|png|jpg|css|js|swf)$ 
+		RewriteRule ^.*$ %{DOCUMENT_ROOT}/maintenance.html [L]
+	</IfModule> 
+  ServerName vm7
+  ProxyRequests Off
+  <Proxy *>
+    Order Deny,Allow
+    Allow from all
+  </Proxy>
+  ProxyPass / http://192.168.120.54:8080/
+  ProxyPassReverse / http://192.168.120.54:8080/
+</VirtualHost>
