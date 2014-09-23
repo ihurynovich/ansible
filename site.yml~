@@ -10,6 +10,3 @@
     - mysql
     - apache
     - deploy
-
-  handlers:
-    - include: handlers/handlers.yml

@@ -21,11 +21,11 @@
   command: cp /tmp/mysql-connector-java-5.1.13/mysql-connector-java-5.1.13-bin.jar /usr/share/tomcat6/lib
 
 - name: Configure mysql-connector-java
-  template: src=vhost.conf dest=/etc/httpd/conf.d
+  template: src=context.xml dest=/usr/share/tomcat6/conf
   register: config
   notify: 
-  - restart httpd
+  - restart tomcat6
 
-- name: Reload httpd config
-  service: name=httpd state=restarted
+- name: Reload tomcat6 config
+  service: name=tomcat6 state=restarted
   when: config|changed

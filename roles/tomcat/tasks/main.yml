@@ -11,6 +11,9 @@
 - name: Start tomcat6
   service: name=tomcat6 state=running
 
+- name: Install libselinux-python
+  yum: name=libselinux-python state=latest
+
 - name: Download mysql-connector-java
   get_url: url={{connector_link}} dest=/tmp/
 
@@ -24,8 +27,8 @@
   template: src=context.xml dest=/usr/share/tomcat6/conf
   register: config
   notify: 
-  - restart httpd
+  - restart tomcat6
 
-- name: Reload tomcat config
-  service: name=httpd state=restarted
+- name: Reload tomcat6 config
+  service: name=tomcat6 state=restarted
   when: config|changed
