@@ -1,6 +1,0 @@
----
-app_link: https://github.com/rightscale/examples/raw/unified_tomcat/dist/app_test.war
-dump_link: https://raw.githubusercontent.com/rightscale/examples/unified_application/common/sql/app_test.sql?raw=true
-connector_link: http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.13.tar.gz
-document_root: /var/www/html/
-maintenance_mode: "On"
